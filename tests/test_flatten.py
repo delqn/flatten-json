@@ -101,6 +101,33 @@ class TestFlattenJSON(unittest.TestCase):
             '"x\\\\.y.1.k": "l", "x\\\\.y.0.x\\\\.1": "1"}')
         self.assertEqual(actual, expected)
 
+    def test_another_aws_example(self):
+        json_string = json.dumps({
+            "StackId": "arn:aws:cloudformation:us-west-2:EXAMPLE/stack-name/guid",
+            "ResponseURL": "http://pre-signed-S3-url-for-response",
+            "ResourceProperties": {
+                "StackName": "stack-name",
+                "List": [
+                    "1",
+                    "2",
+                    "3"
+                ]
+            },
+            "RequestType": "Create",
+            "ResourceType": "Custom::TestResource",
+            "RequestId": "unique id for this create request",
+            "LogicalResourceId": "MyTestResource"
+        })
+        actual = flatten_json.flatten_json(json_string)
+        expected = (
+            '{"StackId": "arn:aws:cloudformation:us-west-2:EXAMPLE/stack-name/guid", '
+            '"ResponseURL": "http://pre-signed-S3-url-for-response", '
+            '"ResourceProperties.List.0": "1", "ResourceProperties.List.1": "2", '
+            '"ResourceProperties.List.2": "3", "ResourceType": "Custom::TestResource", '
+            '"RequestType": "Create", "RequestId": "unique id for this create request", '
+            '"ResourceProperties.StackName": "stack-name", "LogicalResourceId": "MyTestResource"}')
+        self.assertEqual(actual, expected)
+
 
 if __name__ == '__main__':
     unittest.main()
