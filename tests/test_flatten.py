@@ -84,10 +84,10 @@ class TestFlattenJSON(unittest.TestCase):
         actual = flatten_json.flatten_json(simple)
         expected = {
             'b': 'c',
-            'x\\.y.0.n.a': '1',
-            'x\\.y.0.n.b': '2',
-            'x\\.y.0.x\\.1': '1',
-            'x\\.y.1.k': 'l',
+            'x\.y.0.n.a': '1',
+            'x\.y.0.n.b': '2',
+            'x\.y.0.x\.1': '1',
+            'x\.y.1.k': 'l',
             '0': '1',
         }
         self.assertEqual(actual, expected)
