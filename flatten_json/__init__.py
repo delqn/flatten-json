@@ -36,4 +36,4 @@ def _parse_dict(obj, key_so_far, items):
 def flatten_json(json_string):
     items = []
     _route(json.loads(json_string), key_so_far='', items=items)
-    return {key: v for v, key in items}
+    return json.dumps({key: v for v, key in items})

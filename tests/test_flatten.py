@@ -1,3 +1,4 @@
+import json
 import unittest
 
 import flatten_json
@@ -53,7 +54,7 @@ class TestFlattenJSON(unittest.TestCase):
             'Records.0.ses.receipt.spamVerdict.status': 'PASS',
             'Records.0.ses.mail.timestamp': '1970-01-01T00:00:00.000Z'
         }
-        self.assertEqual(actual, expected)
+        self.assertEqual(json.loads(actual), expected)
 
     def test_flatten_simple(self):
         simple = '{"a":1,"b":"c"}'
@@ -62,13 +63,13 @@ class TestFlattenJSON(unittest.TestCase):
             'a': '1',
             'b': 'c',
         }
-        self.assertEqual(actual, expected)
+        self.assertEqual(json.loads(actual), expected)
 
     def test_flatten_simple_list(self):
         simple = '[1,2,4]'
         actual = flatten_json.flatten_json(simple)
         expected = {'1': '2', '0': '1', '2': '4'}
-        self.assertEqual(actual, expected)
+        self.assertEqual(json.loads(actual), expected)
 
     def test_flatten_escaped(self):
         simple = '{"x.y":1,"b":"c"}'
@@ -77,7 +78,7 @@ class TestFlattenJSON(unittest.TestCase):
             'x\.y': '1',
             'b': 'c',
         }
-        self.assertEqual(actual, expected)
+        self.assertEqual(json.loads(actual), expected)
 
     def test_flatten_this(self):
         simple = '{"x.y":[{"x.1":1, "n":{"a":1, "b":2}},   {"k":"l"}],"b":"c", "0":1}'
@@ -90,7 +91,7 @@ class TestFlattenJSON(unittest.TestCase):
             'x\.y.1.k': 'l',
             '0': '1',
         }
-        self.assertEqual(actual, expected)
+        self.assertEqual(json.loads(actual), expected)
 
 
 if __name__ == '__main__':
